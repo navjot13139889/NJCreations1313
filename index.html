@@ -1,781 +1,573 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NJcreation1313 – Boutique Tailoring with Tradition & Love</title>
-
-  <!-- TailwindCSS & Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-
-  <style>
-    :root{
-      --primary:#ee4e34;
-      --secondary:#f7b538;
-      --light:#f5e6e4;
-      --dark:#172121;
-    }
-    html{
-      scroll-behavior:smooth;
-    }
-    .hero{
-      background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.7)),
-                  url('https://images.unsplash.com/photo-1516642898673-edd1cedf1e1f?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
-    }
-    /* cart drawer */
-    #cartDrawer{
-      transform: translateX(100%);
-      transition: transform .3s ease;
-    }
-    #cartDrawer.open{
-      transform: translateX(0);
-    }
-  </style>
-</head>
-<body class="text-[var(--dark)] bg-white">
-
-<!-- ================= NAV ================= -->
-<nav class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-    <a href="#home" class="flex items-center space-x-2">
-      <img src="https://via.placeholder.com/80x80?text=NJ" class="h-12" alt="Logo">
-      <span class="font-bold text-xl">NJcreation1313</span>
-    </a>
-
-    <div class="hidden md:flex items-center space-x-6">
-      <a href="#home" class="hover:text-rose-700">Home</a>
-      <a href="#about" class="hover:text-rose-700">About</a>
-      <a href="#products" class="hover:text-rose-700">Products</a>
-      <a href="#thoughts" class="hover:text-rose-700">Thoughts</a>
-      <a href="#testimonials" class="hover:text-rose-700">Testimonials</a>
-      <a href="#contact" class="hover:text-rose-700">Contact</a>
-
-      <!-- Social -->
-      <a href="https://instagram.com/REPLACE_WITH_YOUR_HANDLE" target="_blank" class="hover:text-rose-700">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-      <a href="https://facebook.com/REPLACE_WITH_YOUR_PAGE" target="_blank" class="hover:text-rose-700">
-        <i class="fa-brands fa-facebook"></i>
-      </a>
-
-      <!-- Cart -->
-      <button id="openCartBtn" class="relative hover:text-rose-700">
-        <i class="fa-solid fa-cart-shopping text-xl"></i>
-        <span id="cartCountBadge"
-              class="absolute -top-2 -right-3 bg-rose-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-      </button>
-    </div>
-
-    <!-- Mobile menu button -->
-    <button id="mobileMenuBtn" class="md:hidden p-2">
-      <i class="fa-solid fa-bars text-xl"></i>
-    </button>
-  </div>
-
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="md:hidden hidden px-4 pb-4 space-y-2 bg-white">
-    <a href="#home" class="block hover:text-rose-700">Home</a>
-    <a href="#about" class="block hover:text-rose-700">About</a>
-    <a href="#products" class="block hover:text-rose-700">Products</a>
-    <a href="#thoughts" class="block hover:text-rose-700">Thoughts</a>
-    <a href="#testimonials" class="block hover:text-rose-700">Testimonials</a>
-    <a href="#contact" class="block hover:text-rose-700">Contact</a>
-
-    <div class="flex items-center space-x-4 pt-2">
-      <a href="https://instagram.com/REPLACE_WITH_YOUR_HANDLE" target="_blank" class="hover:text-rose-700">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-      <a href="https://facebook.com/REPLACE_WITH_YOUR_PAGE" target="_blank" class="hover:text-rose-700">
-        <i class="fa-brands fa-facebook"></i>
-      </a>
-      <button id="openCartBtnMobile" class="relative hover:text-rose-700">
-        <i class="fa-solid fa-cart-shopping text-xl"></i>
-        <span id="cartCountBadgeMobile"
-              class="absolute -top-2 -right-3 bg-rose-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-      </button>
-    </div>
-  </div>
-</nav>
-
-<!-- ================= CART DRAWER ================= -->
-<aside id="cartDrawer"
-       class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl z-[100] flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b">
-    <h3 class="text-lg font-semibold">Your Cart</h3>
-    <button id="closeCartBtn" class="text-gray-500 hover:text-rose-700">
-      <i class="fa-solid fa-xmark text-2xl"></i>
-    </button>
-  </div>
-
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4">
-    <!-- Items will render here -->
-  </div>
-
-  <div class="border-t p-4 space-y-2">
-    <div class="flex justify-between font-semibold">
-      <span>Total:</span>
-      <span id="cartTotal">$0.00</span>
-    </div>
-    <button id="checkoutBtn"
-            class="w-full bg-rose-700 hover:bg-rose-800 text-white py-3 rounded-md transition duration-300">
-      Checkout
-    </button>
-  </div>
-</aside>
-
-<!-- ================= HERO ================= -->
-<section id="home" class="hero min-h-[80vh] flex items-center justify-center text-center text-white px-4">
-  <div>
-    <h1 class="text-4xl md:text-6xl font-bold mb-4">NJcreation<span class="text-yellow-300">1313</span></h1>
-    <p class="text-xl md:text-2xl mb-8">Boutique Tailoring with Tradition & Love</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="#products" class="bg-rose-700 hover:bg-rose-800 text-white px-6 py-3 rounded-md">View Collection</a>
-      <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md">Get In Touch</a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ABOUT ================= -->
-<section id="about" class="py-16 bg-gradient-to-b from-rose-50 to-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">About NJcreation1313</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-    </div>
-
-    <div class="flex flex-col md:flex-row items-center gap-8">
-      <div class="md:w-1/2">
-        <img src="https://via.placeholder.com/800x600?text=Your+Boutique+Photo"
-             alt="Navjot working" class="rounded-lg shadow-xl">
-      </div>
-
-      <div class="md:w-1/2">
-        <h3 class="text-2xl font-semibold text-rose-800 mb-4">Welcome to NJcreation1313!</h3>
-        <p class="text-gray-700 mb-4">
-          I'm Navjot, a boutique designer based in Montreal, Canada. I grew up watching my mother stitch beautiful
-          Punjabi suits — salwar suits, lehengas, shararas, and more — in our family-run boutique.
-        </p>
-        <p class="text-gray-700 mb-6">
-          Inspired by her dedication, I now continue her legacy by creating customized and stylish Punjabi wear with love
-          and attention to detail. Each piece is crafted to celebrate the rich heritage of Punjabi fashion while
-          incorporating modern aesthetics.
-        </p>
-
-        <div class="grid grid-cols-2 gap-4 mb-6">
-          <div class="flex items-center">
-            <div class="bg-yellow-100 p-3 rounded-full mr-3">
-              <i class="fas fa-award text-yellow-600"></i>
-            </div>
-            <span class="text-gray-700">Handcrafted Excellence</span>
-          </div>
-          <div class="flex items-center">
-          <div class="bg-yellow-100 p-3 rounded-full mr-3">
-              <i class="fas fa-heart text-rose-600"></i>
-            </div>
-            <span class="text-gray-700">Made with Love</span>
-          </div>
-          <div class="flex items-center">
-            <div class="bg-yellow-100 p-3 rounded-full mr-3">
-              <i class="fas fa-cut text-rose-600"></i>
-            </div>
-            <span class="text-gray-700">Custom Tailored</span>
-          </div>
-          <div class="flex items-center">
-            <div class="bg-yellow-100 p-3 rounded-full mr-3">
-              <i class="fas fa-star text-yellow-600"></i>
-            </div>
-            <span class="text-gray-700">Premium Fabrics</span>
-          </div>
-        </div>
-
-        <a href="#contact" class="inline-block bg-rose-700 hover:bg-rose-800 text-white px-6 py-2 rounded-md">
-          Book A Consultation
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PRODUCTS ================= -->
-<section id="products" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">Our Collections</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-        Discover our handcrafted Punjabi wear – tailored to perfection.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      <!-- PRODUCT CARD TEMPLATE (duplicate this block to add more) -->
-      <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
-           data-id="1" data-name="Classic Punjabi Suit" data-price="120">
-        <div class="relative overflow-hidden">
-          <img src="https://via.placeholder.com/600x800?text=Classic+Punjabi+Suit" class="w-full h-80 object-cover"
-               alt="Classic Punjabi Suit">
-          <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-            New
-          </div>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Classic Punjabi Suit</h3>
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-gray-600">$120</span>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-            </div>
-          </div>
-          <p class="text-gray-600 mb-4">
-            Traditional salwar kameez with intricate embroidery for special moments.
-          </p>
-          <button class="w-full add-to-cart bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md">
-            Add to Cart
-          </button>
-        </div>
-      </div>
-
-      <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
-           data-id="2" data-name="Bridal Lehenga Choli" data-price="250">
-        <div class="relative overflow-hidden">
-          <img src="https://via.placeholder.com/600x800?text=Bridal+Lehenga+Choli" class="w-full h-80 object-cover"
-               alt="Bridal Lehenga Choli">
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Bridal Lehenga Choli</h3>
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-gray-600">$250</span>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-          <p class="text-gray-600 mb-4">
-            Exquisite, hand-embellished lehenga designed to make you shine.
-          </p>
-          <button class="w-full add-to-cart bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md">
-            Add to Cart
-          </button>
-        </div>
-      </div>
-
-      <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
-           data-id="3" data-name="Designer Sharara Set" data-price="180">
-        <div class="relative overflow-hidden">
-          <img src="https://via.placeholder.com/600x800?text=Designer+Sharara+Set" class="w-full h-80 object-cover"
-               alt="Designer Sharara Set">
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Designer Sharara Set</h3>
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-gray-600">$180</span>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-          <p class="text-gray-600 mb-4">
-            Flowy, elegant sharara with a modern twist.
-          </p>
-          <button class="w-full add-to-cart bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md">
-            Add to Cart
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ================= THOUGHTS ================= -->
-<section id="thoughts" class="py-16 bg-rose-50">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">Thoughts</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-    </div>
-
-    <div class="space-y-6 text-lg text-gray-700">
-      <p>“Believe in yourself—you are braver than you think.”</p>
-      <p>“Happiness is handmade, just like our designs.”</p>
-      <p>“Every stitch tells a story. What’s yours?”</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= TESTIMONIALS ================= -->
-<section id="testimonials" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">Client Testimonials</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-        Hear what our customers say about our craftsmanship and service.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-rose-50 p-6 rounded-lg shadow">
-        <div class="flex items-center mb-4">
-          <img src="https://via.placeholder.com/80" alt="client 1" class="w-12 h-12 rounded-full mr-4">
-          <div>
-            <h4 class="font-semibold">Manpreet Kaur</h4>
-            <div class="text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-        </div>
-        <p class="text-gray-700 italic">
-          “NJcreation1313 designed my wedding lehenga and it was beyond perfect!”
-        </p>
-      </div>
-
-      <div class="bg-rose-50 p-6 rounded-lg shadow">
-        <div class="flex items-center mb-4">
-          <img src="https://via.placeholder.com/80" alt="client 2" class="w-12 h-12 rounded-full mr-4">
-          <div>
-            <h4 class="font-semibold">Priya Sharma</h4>
-            <div class="text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-          </div>
-        </div>
-        <p class="text-gray-700 italic">
-          “Beautifully tailored suits, premium fabrics, and perfect fit!”
-        </p>
-      </div>
-
-      <div class="bg-rose-50 p-6 rounded-lg shadow">
-        <div class="flex items-center mb-4">
-          <img src="https://via.placeholder.com/80" alt="client 3" class="w-12 h-12 rounded-full mr-4">
-          <div>
-            <h4 class="font-semibold">Gurpreet Singh</h4>
-            <div class="text-yellow-400">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-            </div>
-          </div>
-        </div>
-        <p class="text-gray-700 italic">
-          “Outstanding craftsmanship and very patient with our changes.”
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CHECKOUT / PAYMENT SECTION ================= -->
-<section id="checkout" class="py-16 bg-white hidden">
-  <div class="max-w-3xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">Checkout</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-      <p class="text-gray-600 mt-4">Fill in your details to place your order.</p>
-    </div>
-
-    <!-- NOTE: Replace the Formspree action with your own ID -->
-    <form id="orderForm"
-          action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST"
-          class="bg-rose-50 p-6 rounded-lg shadow space-y-4">
-
-      <input type="hidden" name="cart_json" id="cart_json">
-      <input type="hidden" name="cart_total" id="cart_total">
-
-      <div>
-        <label class="block mb-1 font-medium">Full Name *</label>
-        <input name="name" type="text" required
-               class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-rose-500">
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Email *</label>
-        <input name="email" type="email" required
-               class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-rose-500">
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Phone *</label>
-        <input name="phone" type="tel" required
-               class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-rose-500">
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Address *</label>
-        <textarea name="address" rows="3" required
-                  class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-rose-500"></textarea>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-medium">Payment Method *</label>
-        <select name="payment_method" required
-                class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-rose-500">
-          <option value="">Select</option>
-          <option value="Interac e-Transfer">Interac e-Transfer</option>
-          <option value="Cash on Delivery">Cash on Delivery</option>
-          <option value="PayPal">PayPal</option>
-        </select>
-      </div>
-
-      <div class="bg-white border p-4 rounded">
-        <h4 class="font-semibold mb-2">Your Order</h4>
-        <div id="checkoutItems" class="space-y-2 text-gray-700 text-sm"></div>
-        <div class="flex justify-between font-semibold mt-2">
-          <span>Total</span><span id="checkoutTotal">$0.00</span>
-        </div>
-      </div>
-
-      <button type="submit"
-              class="w-full bg-rose-700 hover:bg-rose-800 text-white py-3 rounded-md transition duration-300">
-        Place Order
-      </button>
-    </form>
-  </div>
-</section>
-
-<!-- ================= CONTACT ================= -->
-<section id="contact" class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-rose-900 mb-4">Get In Touch</h2>
-      <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
-      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
-        Have questions or want to place a custom order? Reach out to us today!
-      </p>
-    </div>
-
-    <div class="flex flex-col md:flex-row gap-8">
-      <div class="md:w-1/2 bg-rose-50 p-6 rounded-lg">
-        <h3 class="text-xl font-semibold text-rose-800 mb-4">Contact Information</h3>
-
-        <div class="space-y-4">
-          <div class="flex items-start">
-            <div class="bg-yellow-100 p-3 rounded-full mr-4">
-              <i class="fas fa-map-marker-alt text-rose-700"></i>
-            </div>
-            <div>
-              <h4 class="font-medium text-gray-800">Location</h4>
-              <p class="text-gray-600">Montreal, Canada</p>
-            </div>
-          </div>
-
-          <div class="flex items-start">
-            <div class="bg-yellow-100 p-3 rounded-full mr-4">
-              <i class="fas fa-envelope text-rose-700"></i>
-            </div>
-            <div>
-              <h4 class="font-medium text-gray-800">Email</h4>
-              <p class="text-gray-600">njcreation1313@gmail.com</p>
-            </div>
-          </div>
-
-          <div class="flex items-start">
-            <div class="bg-yellow-100 p-3 rounded-full mr-4">
-              <i class="fas fa-phone text-rose-700"></i>
-            </div>
-            <div>
-              <h4 class="font-medium text-gray-800">Phone / WhatsApp</h4>
-              <p class="text-gray-600">+1 514-705-3758</p>
-            </div>
-          </div>
-
-          <div class="flex items-start">
-            <div class="bg-yellow-100 p-3 rounded-full mr-4">
-              <i class="fas fa-calendar-alt text-rose-700"></i>
-            </div>
-            <div>
-              <h4 class="font-medium text-gray-800">Hours</h4>
-              <p class="text-gray-600">Mon–Fri: 10 AM – 6 PM</p>
-              <p class="text-gray-600">Saturday: 11 AM – 4 PM</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <h4 class="font-medium text-gray-800 mb-3">Follow Us</h4>
-          <div class="flex space-x-4">
-            <a href="https://facebook.com/REPLACE_WITH_YOUR_PAGE" target="_blank"
-               class="bg-yellow-100 hover:bg-yellow-200 p-3 rounded-full inline-block">
-              <i class="fab fa-facebook-f text-rose-700"></i>
-            </a>
-            <a href="https://instagram.com/REPLACE_WITH_YOUR_HANDLE" target="_blank"
-               class="bg-yellow-100 hover:bg-yellow-200 p-3 rounded-full inline-block">
-              <i class="fab fa-instagram text-rose-700"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="md:w-1/2">
-        <!-- Replace action with your Formspree / backend endpoint -->
-        <form class="bg-rose-50 p-6 rounded-lg" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-          <h3 class="text-xl font-semibold text-rose-800 mb-4">Send Us A Message</h3>
-
-          <div class="grid grid-cols-1 gap-4 mb-4">
-            <div>
-              <label class="block text-gray-700 mb-2">Your Name</label>
-              <input type="text" name="name"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
-                     required>
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Your Email</label>
-              <input type="email" name="email"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
-                     required>
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Phone Number</label>
-              <input type="tel" name="phone"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Subject</label>
-              <input type="text" name="subject"
-                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">
-            </div>
-            <div>
-              <label class="block text-gray-700 mb-2">Message</label>
-              <textarea name="message" rows="4"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"></textarea>
-            </div>
-          </div>
-
-          <button type="submit"
-                  class="w-full bg-rose-700 hover:bg-rose-800 text-white py-3 rounded-md transition duration-300">
-            Send Message
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer class="bg-rose-900 text-white py-8 mt-16">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-4 md:mb-0 text-center md:text-left">
-        <div class="flex items-center justify-center md:justify-start space-x-2">
-          <img src="https://via.placeholder.com/60x60?text=NJ" class="h-10" alt="Logo">
-          <span class="font-semibold text-lg">NJcreation1313</span>
-        </div>
-        <p class="mt-2 text-rose-200">Boutique Tailoring with Tradition & Love</p>
-      </div>
-
-      <div class="flex space-x-6">
-        <a href="https://facebook.com/REPLACE_WITH_YOUR_PAGE"
-           class="text-rose-200 hover:text-white transition duration-300">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://instagram.com/REPLACE_WITH_YOUR_HANDLE"
-           class="text-rose-200 hover:text-white transition duration-300">
-          <i class="fab fa-instagram"></i>
-        </a>
-      </div>
-    </div>
-
-    <div class="border-t border-rose-800 mt-8 pt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-        <ul class="space-y-2 text-rose-200">
-          <li><a href="#home" class="hover:text-white">Home</a></li>
-          <li><a href="#about" class="hover:text-white">About Us</a></li>
-          <li><a href="#products" class="hover:text-white">Collections</a></li>
-          <li><a href="#thoughts" class="hover:text-white">Thoughts</a></li>
-          <li><a href="#testimonials" class="hover:text-white">Testimonials</a></li>
-          <li><a href="#contact" class="hover:text-white">Contact</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Our Services</h4>
-        <ul class="space-y-2 text-rose-200">
-          <li>Custom Punjabi Suits</li>
-          <li>Bridal Lehengas</li>
-          <li>Sharara Sets</li>
-          <li>Salwar Kameez</li>
-          <li>Traditional Embroidery</li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
-        <p class="text-rose-200 mb-4">Subscribe to get updates on new designs and special offers.</p>
-        <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" class="flex">
-          <input type="email" name="email" placeholder="Your email"
-                 class="px-4 py-2 rounded-l-md focus:outline-none text-gray-900">
-          <button class="bg-yellow-500 hover:bg-yellow-600 text-rose-900 px-4 py-2 rounded-r-md">
-            Subscribe
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <div class="text-center text-rose-300 mt-8 pt-6 border-t border-rose-800">
-      <p>&copy; 2025 NJcreation1313. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
-
-<!-- ================= SCRIPTS ================= -->
-<script>
-/* ---------------- Mobile Menu ---------------- */
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenu     = document.getElementById('mobileMenu');
-mobileMenuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
-
-/* ---------------- Cart State ---------------- */
-let cart = JSON.parse(localStorage.getItem('nj_cart') || '[]');
-
-const cartDrawer         = document.getElementById('cartDrawer');
-const openCartBtn        = document.getElementById('openCartBtn');
-const openCartBtnMobile  = document.getElementById('openCartBtnMobile');
-const closeCartBtn       = document.getElementById('closeCartBtn');
-const cartItemsContainer = document.getElementById('cartItems');
-const cartTotalEl        = document.getElementById('cartTotal');
-const cartCountBadge     = document.getElementById('cartCountBadge');
-const cartCountBadgeMobile = document.getElementById('cartCountBadgeMobile');
-const checkoutBtn        = document.getElementById('checkoutBtn');
-
-function saveCart(){
-  localStorage.setItem('nj_cart', JSON.stringify(cart));
-}
-function openCart(){
-  renderCart();
-  cartDrawer.classList.add('open');
-}
-function closeCart(){
-  cartDrawer.classList.remove('open');
-}
-openCartBtn && openCartBtn.addEventListener('click', openCart);
-openCartBtnMobile && openCartBtnMobile.addEventListener('click', openCart);
-closeCartBtn.addEventListener('click', closeCart);
-
-function addToCart(item){
-  const found = cart.find(p => p.id === item.id);
-  if(found){
-    found.qty += 1;
-  }else{
-    cart.push({...item, qty: 1});
-  }
-  saveCart();
-  updateCartCount();
-  renderCart();
-}
-
-function removeFromCart(id){
-  cart = cart.filter(p => p.id !== id);
-  saveCart();
-  updateCartCount();
-  renderCart();
-}
-
-function changeQty(id, delta){
-  const found = cart.find(p => p.id === id);
-  if(!found) return;
-  found.qty += delta;
-  if(found.qty <= 0){
-    removeFromCart(id);
-  }else{
-    saveCart();
-    updateCartCount();
-    renderCart();
-  }
-}
-
-function calcTotal(){
-  return cart.reduce((sum, i)=> sum + i.price * i.qty, 0);
-}
-
-function updateCartCount(){
-  const count = cart.reduce((sum, i)=> sum + i.qty, 0);
-  if(cartCountBadge) cartCountBadge.textContent = count;
-  if(cartCountBadgeMobile) cartCountBadgeMobile.textContent = count;
-}
-
-function renderCart(){
-  cartItemsContainer.innerHTML = '';
-  if(cart.length === 0){
-    cartItemsContainer.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
-  }else{
-    cart.forEach(item=>{
-      const div = document.createElement('div');
-      div.className = 'flex items-center justify-between border-b pb-3';
-      div.innerHTML = `
-        <div>
-          <p class="font-medium">${item.name}</p>
-          <p class="text-sm text-gray-500">$${item.price.toFixed(2)}</p>
-          <div class="flex items-center gap-2 mt-2">
-            <button class="px-2 py-1 bg-gray-200 rounded qty-dec">-</button>
-            <span>${item.qty}</span>
-            <button class="px-2 py-1 bg-gray-200 rounded qty-inc">+</button>
-          </div>
-        </div>
-        <button class="text-red-500 hover:text-red-700 remove-item">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      `;
-      cartItemsContainer.appendChild(div);
-
-      div.querySelector('.qty-dec').addEventListener('click', ()=> changeQty(item.id, -1));
-      div.querySelector('.qty-inc').addEventListener('click', ()=> changeQty(item.id, +1));
-      div.querySelector('.remove-item').addEventListener('click', ()=> removeFromCart(item.id));
-    });
-  }
-  cartTotalEl.textContent = '$' + calcTotal().toFixed(2);
-}
-
-/* ---------------- Hook "Add to Cart" buttons ---------------- */
-document.querySelectorAll('.add-to-cart').forEach(btn=>{
-  btn.addEventListener('click', (e)=>{
-    const card = e.target.closest('.product-card');
-    const id    = parseInt(card.dataset.id, 10);
-    const name  = card.dataset.name;
-    const price = parseFloat(card.dataset.price);
-    addToCart({ id, name, price });
-  });
-});
-
-/* ---------------- Checkout Button ---------------- */
-checkoutBtn.addEventListener('click', ()=>{
-  closeCart();
-  // Fill checkout section
-  const checkoutSection = document.getElementById('checkout');
-  const checkoutItems   = document.getElementById('checkoutItems');
-  const checkoutTotal   = document.getElementById('checkoutTotal');
-  const cartJsonInput   = document.getElementById('cart_json');
-  const cartTotalInput  = document.getElementById('cart_total');
-
-  if(!checkoutSection) return;
-
-  checkoutItems.innerHTML = '';
-  cart.forEach(item=>{
-    const row = document.createElement('div');
-    row.className = 'flex justify-between';
-    row.innerHTML = <span>${item.qty} x ${item.name}</span><span>$${(item.price * item.qty).toFixed(2)}</span>;
-    checkoutItems.appendChild(row);
-  });
-
-  const total = calcTotal();
-  checkoutTotal.textContent = '$' + total.toFixed(2);
-
-  cartJsonInput.value  = JSON.stringify(cart);
-  cartTotalInput.value = total.toFixed(2);
-
-  checkoutSection.classList.remove('hidden');
-  checkoutSection.scrollIntoView({ behavior: 'smooth' });
-});
-
-/* ---------------- Init ---------------- */
-updateCartCount();
-renderCart();
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>NJcreation1313 – Boutique Tailoring with Tradition & Love</title>  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+    <style>  
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');  :root {  
+        --primary: #ee4e34;  
+        --secondary: #f7b538;  
+        --light: #f5e6e4;  
+        --dark: #172121;  
+    }  
+      
+    body {  
+        font-family: 'Poppins', sans-serif;  
+        color: var(--dark);  
+    }  
+      
+    h1, h2, h3, h4 {  
+        font-family: 'Playfair Display', serif;  
+    }  
+      
+    .hero {  
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8f765caa-719f-4e56-bafa-78dfc1070f94.png') center/cover no-repeat;  
+    }  
+      
+    .product-card img {  
+        transition: transform 0.3s ease;  
+    }  
+      
+    .product-card:hover img {  
+        transform: scale(1.03);  
+    }  
+      
+    .scroll-smooth {  
+        scroll-behavior: smooth;  
+    }  
+</style>
+
+</head>  
+<body class="scroll-smooth">  
+    <!-- Navigation -->  
+    <nav class="bg-white shadow-md sticky top-0 z-50">  
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">  
+            <div class="flex items-center w-full">  
+                <div class="flex items-center">  
+                    <a href="#" class="flex items-center">  
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/95c743e3-3e9e-4148-be89-cdafd7349cd4.png" alt="NJCreations 1313 Logo" class="h-12 mr-2">  
+                    </a>  
+                </div>  <div class="hidden md:flex space-x-8 ml-8">  
+                <a href="#home" class="text-gray-800 hover:text-rose-800">Home</a>  
+                <a href="#about" class="text-gray-800 hover:text-rose-800">About</a>  
+                <a href="#products" class="text-gray-800 hover:text-rose-800">Products</a>  
+                <a href="#testimonials" class="text-gray-800 hover:text-rose-800">Testimonials</a>  
+                <a href="#contact" class="text-gray-800 hover:text-rose-800">Contact</a>  
+            </div>  
+              
+            <div class="ml-auto flex items-center space-x-6">  
+                <div class="relative">  
+                    <input type="text" placeholder="Search..." class="border border-gray-300 rounded-full py-1 px-4 focus:outline-none focus:ring-2 focus:ring-rose-500 w-40 md:w-52">  
+                    <i class="fas fa-search absolute right-3 top-2 text-gray-400"></i>  
+                </div>  
+                <a href="#" class="text-gray-800 hover:text-rose-800 relative">  
+                    <i class="fas fa-shopping-cart text-xl"></i>  
+                    <span class="absolute -top-2 -right-2 bg-rose-700 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>  
+                </a>  
+                <div class="md:hidden">  
+                    <button class="mobile-menu-button p-2 focus:outline-none">  
+                        <i class="fas fa-bars text-xl"></i>  
+                    </button>  
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+      
+    <!-- Mobile menu -->  
+    <div class="mobile-menu hidden md:hidden bg-white px-4 pb-4">  
+        <a href="#home" class="block py-2 text-gray-800 hover:text-rose-800">Home</a>  
+        <a href="#about" class="block py-2 text-gray-800 hover:text-rose-800">About</a>  
+        <a href="#products" class="block py-2 text-gray-800 hover:text-rose-800">Products</a>  
+        <a href="#testimonials" class="block py-2 text-gray-800 hover:text-rose-800">Testimonials</a>  
+        <a href="#contact" class="block py-2 text-gray-800 hover:text-rose-800">Contact</a>  
+    </div>  
+</nav>  
+
+<!-- Hero Section -->  
+<section id="home" class="hero min-h-screen flex items-center justify-center text-center text-white">  
+    <div class="px-4">  
+        <div class="flex justify-center mb-6">  
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/10f2ed15-a92c-4750-881b-ef832a9936d0.png" alt="NJCreations 1313 Logo" class="h-24">  
+        </div>  
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">NJcreation<span class="text-yellow-300">1313</span></h1>  
+        <p class="text-xl md:text-2xl mb-8">Boutique Tailoring with Tradition & Love</p>  
+        <div class="flex justify-center space-x-4">  
+            <a href="#products" class="bg-rose-700 hover:bg-rose-800 text-white px-6 py-3 rounded-md">View Collection</a>  
+            <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md">Get In Touch</a>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- About Section -->  
+<section id="about" class="py-16 bg-gradient-to-b from-rose-50 to-white">  
+    <div class="container mx-auto px-4">  
+        <div class="text-center mb-12">  
+            <h2 class="text-3xl font-bold text-rose-900 mb-4">About NJcreation1313</h2>  
+            <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>  
+        </div>  
+          
+        <div class="flex flex-col md:flex-row items-center gap-8">  
+            <div class="md:w-1/2 mb-8 md:mb-0">  
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7b2a66f7-0331-4e37-92b9-6beb83c0ddc6.png" alt="Navjot, the designer, working on a Punjabi suit in her boutique with traditional fabrics and tools around" class="rounded-lg shadow-xl">  
+            </div>  
+              
+            <div class="md:w-1/2">  
+                <h3 class="text-2xl font-semibold text-rose-800 mb-4">Welcome to NJcreation1313!</h3>  
+                <p class="text-gray-700 mb-4">  
+                    I'm Navjot, a boutique designer based in Montreal, Canada. I grew up watching my mother stitch beautiful Punjabi suits — salwar suits, lehengas, shararas, and more — in our family-run boutique.  
+                </p>  
+                <p class="text-gray-700 mb-6">  
+                    Inspired by her dedication, I now continue her legacy by creating customized and stylish Punjabi wear with love and attention to detail. Each piece is crafted to celebrate the rich heritage of Punjabi fashion while incorporating modern aesthetics.  
+                </p>  
+                  
+                <div class="grid grid-cols-2 gap-4 mb-6">  
+                    <div class="flex items-center">  
+                        <div class="bg-yellow-100 p-3 rounded-full mr-3">  
+                            <i class="fas fa-award text-yellow-600"></i>  
+                        </div>  
+                        <span class="text-gray-700">Handcrafted Excellence</span>  
+                    </div>  
+                    <div class="flex items-center">  
+                        <div class="bg-yellow-100 p-3 rounded-full mr-3">  
+                            <i class="fas fa-heart text-rose-600"></i>  
+                        </div>  
+                        <span class="text-gray-700">Made with Love</span>  
+                    </div>  
+                    <div class="flex items-center">  
+                        <div class="bg-yellow-100 p-3 rounded-full mr-3">  
+                            <i class="fas fa-cut text-rose-600"></i>  
+                        </div>  
+                        <span class="text-gray-700">Custom Tailored</span>  
+                    </div>  
+                    <div class="flex items-center">  
+                        <div class="bg-yellow-100 p-3 rounded-full mr-3">  
+                            <i class="fas fa-star text-yellow-600"></i>  
+                        </div>  
+                        <span class="text-gray-700">Premium Fabrics</span>  
+                    </div>  
+                </div>  
+                  
+                <a href="#contact" class="inline-block bg-rose-700 hover:bg-rose-800 text-white px-6 py-2 rounded-md">  
+                    Book A Consultation  
+                </a>  
+            </div>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- Products Section -->  
+<section id="products" class="py-16 bg-white">  
+    <div class="container mx-auto px-4">  
+        <div class="text-center mb-12">  
+            <h2 class="text-3xl font-bold text-rose-900 mb-4">Our Collections</h2>  
+            <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>  
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">  
+                Discover our exquisite range of handcrafted Punjabi wear, each piece tailored to perfection  
+            </p>  
+        </div>  
+          
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">  
+            <!-- Product 1 -->  
+            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">  
+                <div class="relative overflow-hidden">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4674a0eb-afbb-4225-91fc-8574360edda3.png" alt="Elegant Punjabi salwar suit in deep red with gold embroidery work" class="w-full h-80 object-cover">  
+                    <div class="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">  
+                        New  
+                    </div>  
+                </div>  
+                <div class="p-6">  
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Classic Punjabi Suit</h3>  
+                    <div class="flex items-center justify-between mb-4">  
+                        <span class="text-gray-600">Starting at $120</span>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star-half-alt text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                    <p class="text-gray-600 mb-4">  
+                        Traditional salwar kameez with intricate phulkari embroidery, perfect for weddings and special occasions.  
+                    </p>  
+                    <button class="w-full bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md transition duration-300 add-to-cart">  
+                        Add to Cart  
+                    </button>  
+                </div>  
+            </div>  
+              
+            <!-- Product 2 -->  
+            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">  
+                <div class="relative overflow-hidden">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5c1ccb73-cf11-423e-8e87-9a759f3149c2.png" alt="Modern lehenga choli in peach color with delicate mirror work and embroidery" class="w-full h-80 object-cover">  
+                </div>  
+                <div class="p-6">  
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Bridal Lehenga Choli</h3>  
+                    <div class="flex items-center justify-between mb-4">  
+                        <span class="text-gray-600">Starting at $250</span>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                    <p class="text-gray-600 mb-4">  
+                        Exquisite bridal lehenga with hand-embellished details, designed to make you shine on your special day.  
+                    </p>  
+                    <button class="w-full bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md transition duration-300">  
+                        Customize Now  
+                    </button>  
+                </div>  
+            </div>  
+              
+            <!-- Product 3 -->  
+            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">  
+                <div class="relative overflow-hidden">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2f6cf0c3-4f54-4f73-b8ad-f3a9900e46d4.png" alt="Contemporary sharara set in teal blue with elaborate zardozi work" class="w-full h-80 object-cover">  
+                </div>  
+                <div class="p-6">  
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Designer Sharara Set</h3>  
+                    <div class="flex items-center justify-between mb-4">  
+                        <span class="text-gray-600">Starting at $180</span>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                    <p class="text-gray-600 mb-4">  
+                        Flowy sharara set with contemporary designs, combining comfort and elegance for any festive occasion.  
+                    </p>  
+                    <button class="w-full bg-rose-700 hover:bg-rose-800 text-white py-2 rounded-md transition duration-300">  
+                        Customize Now  
+                    </button>  
+                </div>  
+            </div>  
+        </div>  
+          
+        <div class="text-center mt-12">  
+            <a href="#contact" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-md transition duration-300">  
+                View Full Collection  
+            </a>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- Testimonials Section -->  
+<section id="testimonials" class="py-16 bg-rose-50">  
+    <div class="container mx-auto px-4">  
+        <div class="text-center mb-12">  
+            <h2 class="text-3xl font-bold text-rose-900 mb-4">Client Testimonials</h2>  
+            <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>  
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">  
+                Hear what our customers say about our craftsmanship and service  
+            </p>  
+        </div>  
+          
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
+            <!-- Testimonial 1 -->  
+            <div class="bg-white p-6 rounded-lg shadow-md">  
+                <div class="flex items-center mb-4">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8c73af62-bfd4-4334-ac43-e66ef810f49e.png" alt="Happy client Manpreet Kaur, a woman in her 30s smiling in traditional Punjabi attire" class="w-12 h-12 rounded-full mr-4">  
+                    <div>  
+                        <h4 class="font-semibold">Manpreet Kaur</h4>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                </div>  
+                <p class="text-gray-600 italic">  
+                    "NJcreation1313 designed my wedding lehenga and it was beyond perfect! The attention to detail and quality of work was exceptional. Navjot understood exactly what I wanted and delivered beyond my expectations."  
+                </p>  
+            </div>  
+              
+            <!-- Testimonial 2 -->  
+            <div class="bg-white p-6 rounded-lg shadow-md">  
+                <div class="flex items-center mb-4">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/904f884c-9ba0-4cd4-93af-2cfc3da506d5.png" alt="Happy client Priya Sharma, a professional woman smiling in an office setting" class="w-12 h-12 rounded-full mr-4">  
+                    <div>  
+                        <h4 class="font-semibold">Priya Sharma</h4>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                </div>  
+                <p class="text-gray-600 italic">  
+                    "I've ordered multiple suits from NJcreation1313 and each one has been beautifully tailored. The fabrics are high quality and the fit is always perfect. Highly recommend for anyone looking for authentic Punjabi suits in Montreal."  
+                </p>  
+            </div>  
+              
+            <!-- Testimonial 3 -->  
+            <div class="bg-white p-6 rounded-lg shadow-md">  
+                <div class="flex items-center mb-4">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/89b58cdf-1afd-46e7-b4bb-6695f7ac098f.png" alt="Happy client Gurpreet Singh, a gentleman in traditional attire at a cultural event" class="w-12 h-12 rounded-full mr-4">  
+                    <div>  
+                        <h4 class="font-semibold">Gurpreet Singh</h4>  
+                        <div class="flex">  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star text-yellow-400"></i>  
+                            <i class="fas fa-star-half-alt text-yellow-400"></i>  
+                        </div>  
+                    </div>  
+                </div>  
+                <p class="text-gray-600 italic">  
+                    "Got customized Punjabi suits made for my daughters from NJcreation1313. The craftsmanship is outstanding and Navjot was incredibly patient working with my design changes. Will definitely be coming back!"  
+                </p>  
+            </div>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- Contact Section -->  
+<section id="contact" class="py-16 bg-white">  
+    <div class="container mx-auto px-4">  
+        <div class="text-center mb-12">  
+            <h2 class="text-3xl font-bold text-rose-900 mb-4">Get In Touch</h2>  
+            <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>  
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">  
+                Have questions or want to place a custom order? Reach out to us today!  
+            </p>  
+        </div>  
+          
+        <div class="flex flex-col md:flex-row gap-8">  
+            <div class="md:w-1/2">  
+                <div class="bg-rose-50 p-6 rounded-lg">  
+                    <h3 class="text-xl font-semibold text-rose-800 mb-4">Contact Information</h3>  
+                      
+                    <div class="space-y-4">  
+                        <div class="flex items-start">  
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">  
+                                <i class="fas fa-map-marker-alt text-rose-700"></i>  
+                            </div>  
+                            <div>  
+                                <h4 class="font-medium text-gray-800">Location</h4>  
+                                <p class="text-gray-600">Montreal, Canada</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="flex items-start">  
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">  
+                                <i class="fas fa-envelope text-rose-700"></i>  
+                            </div>  
+                            <div>  
+                                <h4 class="font-medium text-gray-800">Email</h4>  
+                                <p class="text-gray-600">contact@njcreation1313.com</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="flex items-start">  
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">  
+                                <i class="fas fa-phone text-rose-700"></i>  
+                            </div>  
+                            <div>  
+                                <h4 class="font-medium text-gray-800">Phone</h4>  
+                                <p class="text-gray-600">+1 (438) 123-4567</p>  
+                            </div>  
+                        </div>  
+                          
+                        <div class="flex items-start">  
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">  
+                                <i class="fas fa-calendar-alt text-rose-700"></i>  
+                            </div>  
+                            <div>  
+                                <h4 class="font-medium text-gray-800">Hours</h4>  
+                                <p class="text-gray-600">Monday - Friday: 10AM - 6PM</p>  
+                                <p class="text-gray-600">Saturday: 11AM - 4PM</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                      
+                    <div class="mt-6">  
+                        <h4 class="font-medium text-gray-800 mb-3">Follow Us</h4>  
+                        <div class="flex space-x-4">  
+                            <a href="#" class="bg-yellow-100 hover:bg-yellow-200 p-3 rounded-full inline-block">  
+                                <i class="fab fa-facebook-f text-rose-700"></i>  
+                            </a>  
+                            <a href="#" class="bg-yellow-100 hover:bg-yellow-200 p-3 rounded-full inline-block">  
+                                <i class="fab fa-instagram text-rose-700"></i>  
+                            </a>  
+                            <a href="#" class="bg-yellow-100 hover:bg-yellow-200 p-3 rounded-full inline-block">  
+                                <i class="fab fa-pinterest-p text-rose-700"></i>  
+                            </a>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+              
+            <div class="md:w-1/2">  
+                <form class="bg-rose-50 p-6 rounded-lg">  
+                    <h3 class="text-xl font-semibold text-rose-800 mb-4">Send Us A Message</h3>  
+                      
+                    <div class="grid grid-cols-1 gap-4 mb-4">  
+                        <div>  
+                            <label for="name" class="block text-gray-700 mb-2">Your Name</label>  
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" required>  
+                        </div>  
+                          
+                        <div>  
+                            <label for="email" class="block text-gray-700 mb-2">Your Email</label>  
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" required>  
+                        </div>  
+                          
+                        <div>  
+                            <label for="phone" class="block text-gray-700 mb-2">Phone Number</label>  
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">  
+                        </div>  
+                          
+                        <div>  
+                            <label for="subject" class="block text-gray-700 mb-2">Subject</label>  
+                            <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">  
+                        </div>  
+                          
+                        <div>  
+                            <label for="message" class="block text-gray-700 mb-2">Message</label>  
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"></textarea>  
+                        </div>  
+                    </div>  
+                      
+                    <button type="submit" class="w-full bg-rose-700 hover:bg-rose-800 text-white py-3 rounded-md transition duration-300">  
+                        Send Message  
+                    </button>  
+                </form>  
+            </div>  
+        </div>  
+    </div>  
+</section>  
+
+<!-- Footer -->  
+<footer class="bg-rose-900 text-white py-8">  
+    <div class="container mx-auto px-4">  
+        <div class="flex flex-col md:flex-row justify-between items-center">  
+            <div class="mb-4 md:mb-0">  
+                <a href="#" class="flex items-center">  
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/daa87a15-52fe-40c8-b46d-402d0cd3b794.png" alt="NJCreations 1313 Logo" class="h-10">  
+                </a>  
+                <p class="mt-2 text-rose-200">Boutique Tailoring with Tradition & Love</p>  
+            </div>  
+              
+            <div class="flex space-x-6">  
+                <a href="#" class="text-rose-200 hover:text-white transition duration-300">  
+                    <i class="fab fa-facebook-f"></i>  
+                </a>  
+                <a href="#" class="text-rose-200 hover:text-white transition duration-300">  
+                    <i class="fab fa-instagram"></i>  
+                </a>  
+                <a href="#" class="text-rose-200 hover:text-white transition duration-300">  
+                    <i class="fab fa-pinterest-p"></i>  
+                </a>  
+            </div>  
+        </div>  
+          
+        <div class="border-t border-rose-800 mt-8 pt-8">  
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
+                <div>  
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>  
+                    <ul class="space-y-2">  
+                        <li><a href="#home" class="text-rose-200 hover:text-white transition duration-300">Home</a></li>  
+                        <li><a href="#about" class="text-rose-200 hover:text-white transition duration-300">About Us</a></li>  
+                        <li><a href="#products" class="text-rose-200 hover:text-white transition duration-300">Collections</a></li>  
+                        <li><a href="#testimonials" class="text-rose-200 hover:text-white transition duration-300">Testimonials</a></li>  
+                        <li><a href="#contact" class="text-rose-200 hover:text-white transition duration-300">Contact</a></li>  
+                    </ul>  
+                </div>  
+                  
+                <div>  
+                    <h4 class="text-lg font-semibold mb-4">Our Services</h4>  
+                    <ul class="space-y-2">  
+                        <li><span class="text-rose-200">Custom Punjabi Suits</span></li>  
+                        <li><span class="text-rose-200">Bridal Lehengas</span></li>  
+                        <li><span class="text-rose-200">Sharara Sets</span></li>  
+                        <li><span class="text-rose-200">Salwar Kameez</span></li>  
+                        <li><span class="text-rose-200">Traditional Embroidery</span></li>  
+                    </ul>  
+                </div>  
+                  
+                <div>  
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>  
+                    <p class="text-rose-200 mb-4">Subscribe to get updates on new designs and special offers.</p>  
+                    <form class="flex">  
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-md focus:outline-none text-gray-900">  
+                        <button class="bg-yellow-500 hover:bg-yellow-600 text-rose-900 px-4 py-2 rounded-r-md">  
+                            Subscribe  
+                        </button>  
+                    </form>  
+                </div>  
+            </div>  
+        </div>  
+          
+        <div class="text-center text-rose-300 mt-8 pt-6 border-t border-rose-800">  
+            <p>&copy; 2023 NJcreation1313. All rights reserved.</p>  
+        </div>  
+    </div>  
+</footer>  
+
+<script>  
+    // Mobile menu toggle  
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');  
+    const mobileMenu = document.querySelector('.mobile-menu');  
+      
+    mobileMenuButton.addEventListener('click', () => {  
+        mobileMenu.classList.toggle('hidden');  
+    });  
+      
+    // Close mobile menu when clicking a link  
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');  
+    mobileMenuLinks.forEach(link => {  
+        link.addEventListener('click', () => {  
+            mobileMenu.classList.add('hidden');  
+        });  
+    });  
+      
+    // Form submission  
+    const contactForm = document.querySelector('form');  
+    if(contactForm) {  
+        contactForm.addEventListener('submit', (e) => {  
+            e.preventDefault();  
+              
+            // Here you would normally send the form data to a server  
+            // For this demo, we'll just show an alert  
+            alert('Thank you for your message! We will get back to you soon.');  
+            contactForm.reset();  
+        });  
+    }  
+
+    // Shopping cart functionality  
+    const cartItems = [];  
+      
+    document.querySelectorAll('.add-to-cart').forEach(button => {  
+        button.addEventListener('click', () => {  
+            const product = button.closest('.product-card');  
+            const item = {  
+                name: product.querySelector('h3').textContent,  
+                price: product.querySelector('span').textContent  
+            };  
+            cartItems.push(item);  
+            updateCartCount();  
+        });  
+    });  
+
+    function updateCartCount() {  
+        const countElement = document.querySelector('.fa-shopping-cart + span');  
+        countElement.textContent = cartItems.length;  
+    }  
 </script>
 
-</body>
-</html>
+</body>  
+</html>  
+  This is my website code can you please explain me each and every section by details sk that h can make changes or you can do for me by me choice you already know that what i wnt to make i want to add my products pictures and i want to make my add to cart section working so that my customers order my products
