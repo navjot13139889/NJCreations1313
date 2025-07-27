@@ -1,0 +1,23 @@
+            });
+        }
+        // Shopping cart functionality
+        const cartItems = [];
+        
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                const product = button.closest('.product-card');
+                const item = {
+                    name: product.querySelector('h3').textContent,
+                    price: product.querySelector('span').textContent
+                };
+                cartItems.push(item);
+                updateCartCount();
+            });
+        });
+        function updateCartCount() {
+            const countElement = document.querySelector('.fa-shopping-cart + span');
+            countElement.textContent = cartItems.length;
+        }
+    </script>
+</body>
+</html>
